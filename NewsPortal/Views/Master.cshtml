@@ -1,0 +1,65 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+    
+	<head>
+	    <title>Umbraco News Portal</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+	    <style>
+       .articles-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .articles-list a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px;
+        }
+        .italic {
+            font-style: italic;
+        }
+    </style>
+	</head>
+	
+	<body>
+
+@{
+	var selection = Umbraco.ContentAtRoot().FirstOrDefault()
+    .Children()
+    .Where(x => x.IsVisible());
+}
+
+	<!-- Navigation -->
+    <div class="container">
+        <nav class="navbar navbar-expand navbar-light">
+            <a class="navbar-brand font-weight-bold" href="/">Umbraco Web Site</a>
+            <!-- Links -->
+        <ul id="menu" class="navbar-nav">
+            @foreach (var item in selection)
+            {
+                <li class="nav-item">
+                    <a data-category="@item.Name().ToLower()" href="@item.Url()" class="nav-link">@item.Name()</a>
+                </li>
+            }
+        </ul>
+        </nav>
+    </div>
+        <div class="container" id="main-content">
+        @RenderBody()
+    </div>
+	    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	        <script src="/scripts/loadArticles.js"></script>
+	        <link rel="stylesheet" src="/css/hello.css">
+	</body>
+</html>	
